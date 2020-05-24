@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
+import 'price_screen.dart';
 
-void main() => runApp(CurrencyTiker());
+void main() => runApp(MyApp());
 
-class CurrencyTiker extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home:Text("data") ,
+      theme: ThemeData.dark().copyWith(
+          primaryColor: Colors.lightBlue,
+          scaffoldBackgroundColor: Colors.white),
+      home: PriceScreen(),
     );
   }
 }
-
