@@ -54,11 +54,15 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   String bitcoinValue = '?';
+  Map<String, String> coinValues = {};
+  bool isAwiting = false;
   void getData() async {
+    isAwiting = true;
     try {
       var data = await CoinData().getCoinData(selectedCurrency);
+      isAwiting = false;
       setState(() {
-        bitcoinValue = data;
+        coinValues = data;
       });
     } catch (e) {
       print(e);
@@ -82,20 +86,21 @@ class _PriceScreenState extends State<PriceScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           CriptoCard(
-            criptoValue: 'BTH',
-            bitcoinValue: '3455',
+            criptoValue: 'BTC',
+            bitcoinValue: isAwiting ? '?' : coinValues['BTC'],
             selectedCurrency: selectedCurrency,
           ),
           CriptoCard(
             criptoValue: 'ETH',
-            bitcoinValue: '3455',
+            bitcoinValue: isAwiting ? '?' : coinValues['ETH'],
             selectedCurrency: selectedCurrency,
           ),
           CriptoCard(
             criptoValue: 'LTC',
-            bitcoinValue: '3455',
+            bitcoinValue: isAwiting ? '?' : coinValues['LTC'],
             selectedCurrency: selectedCurrency,
           ),
+        
           SizedBox(
             height: 80,
           ),

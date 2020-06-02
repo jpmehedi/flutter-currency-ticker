@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -37,16 +36,21 @@ const apiKey = '9005885F-09C5-4AAB-A03A-6D142C38D906';
 
 class CoinData {
   Future getCoinData(String selectedCurrency) async {
-    String requestURl = '$coinAPIURL/BTC/$selectedCurrency?apikey=$apiKey';
-    http.Response response = await http.get(requestURl);
+    Map<String, String> cryptoPrice = {};
+    for (String crypto in cryptoList) {
+      String requestURl =
+          '$coinAPIURL/$crypto/$selectedCurrency?apikey=$apiKey';
+      http.Response response = await http.get(requestURl);
 
-    if (response.statusCode == 200) {
-      var decodeData = jsonDecode(response.body);
-      double lastPrice = decodeData['rate'];
-      return lastPrice.toStringAsFixed(0);
-    } else {
-      print(response.statusCode);
-      throw 'Problem with the get request';
+      if (response.statusCode == 200) {
+        var decodeData = jsonDecode(response.body);
+        double lastPrice = decodeData['rate'];
+        cryptoPrice[crypto] = lastPrice.toStringAsFixed(0);
+      } else {
+        print(response.statusCode);
+        throw 'Problem with the get request';
+      }
     }
+    return cryptoPrice;
   }
 }
